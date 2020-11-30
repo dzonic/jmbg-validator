@@ -285,6 +285,9 @@ def check_pol():
             cif10_pol = int(str(entry1.get())[9])
             cif11_pol = int(str(entry1.get())[10])
             cif12_pol = int(str(entry1.get())[11])
+            godina = str('%d%d%d' % (peta_cifra, sesta_cifra, sedma_cifra))
+            feb = str('%d%d' % (prva_cifra, druga_cifra))
+
             if prva_cifra not in [0, 1, 2, 3]:
                 answer.config(font=('arial', 10, 'bold'),
                               text="JMBG nije validan! Neispravna prva cifra - nije u opsegu! Mora biti između 0,1,2 i 3")
@@ -301,6 +304,15 @@ def check_pol():
             elif peta_cifra == 0 and int('%d%d' % (sesta_cifra, sedma_cifra)) in range(21, 99, 1):
                 answer.config(font=('arial', 10, 'bold'),
                               text="JMBG nije validan! Neispravna šesta i sedma cifra - nisu u opsegu! [Do 020] ")
+            elif (int(godina) % 4 == 0 and int(godina) % 100 != 0) or int(godina) % 400 == 0:
+                februar = str('%d%d' % (prva_cifra, druga_cifra))
+                if int(februar) == 30 or int(februar) == 31:
+                    answer.config(font=('arial', 10, 'bold'),
+                                  text="JMBG nije validan! Prestupna godina! Februar ima 29 dana!")
+                else:
+                    answer.config(font=('arial', 10, 'bold'), text="Datum vašeg rođenja je:" + " " + datum + "\n")
+            elif int(feb) == 30 or int(feb) == 31 or int(feb) == 29:
+                answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Februar ima 28 dana!")
             elif peta_cifra != 9 and peta_cifra != 0:
                 answer.config(font=('arial', 10, 'bold'),
                               text="JMBG nije validan! Neispravna peta cifra - nije u opsegu! [0 ili 1]")
@@ -338,6 +350,8 @@ def datum():
             sedma_cifra = int(str(entry1.get())[6])
             datum = str('%d%d.%d%d.%d%d%d' %
                         (prva_cifra, druga_cifra, treca_cifra, cetvrta_cifra, peta_cifra, sesta_cifra, sedma_cifra))
+            godina = str('%d%d%d' % (peta_cifra, sesta_cifra, sedma_cifra))
+            feb = str('%d%d' % (prva_cifra, druga_cifra))
 
             if prva_cifra not in [0, 1, 2, 3]:
                 answer.config(font=('arial', 10, 'bold'),
@@ -358,6 +372,15 @@ def datum():
                               text="JMBG nije validan! Neispravna peta cifra - nije u opsegu! [0 ili 1]")
             elif prva_cifra == 0 and druga_cifra == 0:
                 answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Neispravna druga cifra!")
+            elif (int(godina) % 4 == 0 and int(godina) % 100 != 0) or int(godina) % 400 == 0:
+                februar = str('%d%d' % (prva_cifra, druga_cifra))
+                if int(februar) == 30 or int(februar) == 31:
+                    answer.config(font=('arial', 10, 'bold'),
+                                  text="JMBG nije validan! Prestupna godina! Februar ima 29 dana!")
+                else:
+                    answer.config(font=('arial', 10, 'bold'), text="Datum vašeg rođenja je:" + " " + datum + "\n")
+            elif int(feb) == 30 or int(feb) == 31 or int(feb) == 29:
+                answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Februar ima 28 dana!")
             else:
                 answer.config(font=('arial', 10, 'bold'), text="Datum vašeg rođenja je:" + " " + datum + "\n")
         else:
@@ -432,16 +455,40 @@ def kontrolna_cifra():
                 for p in pol:
                     if pol in range(0, 499, 1):
                         pol = int(pol) + 1
-                        answer.config(font=('arial', 10, 'bold'),
-                                      text="JMBG je pogrešan, uvećava se cifra pola za 1. Sada je: " + str(pol))
+                        answer.config(font=('arial', 10, 'bold'), text="JMBG je pogrešan, uvećava se cifra pola za 1.")
                     else:
                         pol = int(pol) + 1
-                        answer.config(font=('arial', 10, 'bold'),
-                                      text="JMBG je pogrešan, uvećava se cifra pola za 1. Sada je:" + str(pol))
+                        answer.config(font=('arial', 10, 'bold'), text="JMBG je pogrešan, uvećava se cifra pola za 1.")
             else:
                 answer.config(font=('arial', 10, 'bold'), text="Nije ispravna kontrolna cifra !")
         else:
             answer.config(font=('arial', 10, 'bold'), text="Nije ispravna kontrolna cifra !")
+    except ValueError:
+        answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Niste uneli brojnu vrednost!")
+
+
+def prestupna_godina():
+    try:
+        a = entry1.get()
+        if len(a) == 0:
+            answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Niste uneli JMBG!")
+            a = int(a)
+        elif len(a) == 13:
+
+            prva_cifra = int(str(entry1.get())[0])
+            druga_cifra = int(str(entry1.get())[1])
+            treca_cifra = int(str(entry1.get())[2])
+            cetvrta_cifra = int(str(entry1.get())[3])
+            peta_cifra = int(str(entry1.get())[4])
+            sesta_cifra = int(str(entry1.get())[5])
+            sedma_cifra = int(str(entry1.get())[6])
+            godina = str('%d%d%d' % (peta_cifra, sesta_cifra, sedma_cifra))
+            if (int(godina) % 4 == 0 and int(godina) % 100 != 0) or int(godina) % 400 == 0:
+                answer.config(font=('arial', 10, 'bold'), text="Prestupna godina! Februar ima 29 dana!")
+            else:
+                answer.config(font=('arial', 10, 'bold'), text="Nije prestupna godina")
+        else:
+            print("ovde")
     except ValueError:
         answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Niste uneli brojnu vrednost!")
 
@@ -497,4 +544,3 @@ button_exit = Button(root, font=('arial', 10, 'bold'), text="Zatvori", bg="#C000
 button_exit.pack(side=RIGHT, padx=40, pady=30)
 
 root.mainloop()
-
