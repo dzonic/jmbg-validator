@@ -91,8 +91,6 @@ def check_region():
                 answer.config(font=('arial', 10, 'bold'), text="Region rođenja ili prebivališta: Stranc u Makedoniji")
             elif int('%d%d' % (osma_cifra, deveta_cifra)) == 5:
                 answer.config(font=('arial', 10, 'bold'), text="Region rođenja ili prebivališta: Stranc u Sloveniji")
-            elif int('%d%d' % (osma_cifra, deveta_cifra)) == 5:
-                answer.config(font=('arial', 10, 'bold'), text="Region rođenja ili prebivališta: Stranc u Sloveniji")
             elif int('%d%d' % (osma_cifra, deveta_cifra)) == 7:
                 answer.config(font=('arial', 10, 'bold'),
                               text="Region rođenja ili prebivališta: Stranc u Srbiji(bez pokrajina)")
@@ -285,8 +283,6 @@ def check_pol():
             cif10_pol = int(str(entry1.get())[9])
             cif11_pol = int(str(entry1.get())[10])
             cif12_pol = int(str(entry1.get())[11])
-            godina = str('%d%d%d' % (peta_cifra, sesta_cifra, sedma_cifra))
-            feb = str('%d%d' % (prva_cifra, druga_cifra))
 
             if prva_cifra not in [0, 1, 2, 3]:
                 answer.config(font=('arial', 10, 'bold'),
@@ -304,15 +300,6 @@ def check_pol():
             elif peta_cifra == 0 and int('%d%d' % (sesta_cifra, sedma_cifra)) in range(21, 99, 1):
                 answer.config(font=('arial', 10, 'bold'),
                               text="JMBG nije validan! Neispravna šesta i sedma cifra - nisu u opsegu! [Do 020] ")
-            elif (int(godina) % 4 == 0 and int(godina) % 100 != 0) or int(godina) % 400 == 0:
-                februar = str('%d%d' % (prva_cifra, druga_cifra))
-                if int(februar) == 30 or int(februar) == 31:
-                    answer.config(font=('arial', 10, 'bold'),
-                                  text="JMBG nije validan! Prestupna godina! Februar ima 29 dana!")
-                else:
-                    answer.config(font=('arial', 10, 'bold'), text="Datum vašeg rođenja je:" + " " + datum + "\n")
-            elif int(feb) == 30 or int(feb) == 31 or int(feb) == 29:
-                answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Februar ima 28 dana!")
             elif peta_cifra != 9 and peta_cifra != 0:
                 answer.config(font=('arial', 10, 'bold'),
                               text="JMBG nije validan! Neispravna peta cifra - nije u opsegu! [0 ili 1]")
@@ -351,7 +338,7 @@ def datum():
             datum = str('%d%d.%d%d.%d%d%d' %
                         (prva_cifra, druga_cifra, treca_cifra, cetvrta_cifra, peta_cifra, sesta_cifra, sedma_cifra))
             godina = str('%d%d%d' % (peta_cifra, sesta_cifra, sedma_cifra))
-            feb = str('%d%d' % (prva_cifra, druga_cifra))
+            feb = str('%d%d' % (treca_cifra, cetvrta_cifra))
 
             if prva_cifra not in [0, 1, 2, 3]:
                 answer.config(font=('arial', 10, 'bold'),
@@ -373,14 +360,22 @@ def datum():
             elif prva_cifra == 0 and druga_cifra == 0:
                 answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Neispravna druga cifra!")
             elif (int(godina) % 4 == 0 and int(godina) % 100 != 0) or int(godina) % 400 == 0:
-                februar = str('%d%d' % (prva_cifra, druga_cifra))
-                if int(februar) == 30 or int(februar) == 31:
+                februar = str('%d%d' % (treca_cifra, cetvrta_cifra))
+                day = str('%d%d' % (prva_cifra, druga_cifra))
+                if int(februar) == 2 and int(day) == 30:
+                    answer.config(font=('arial', 10, 'bold'),
+                                  text="JMBG nije validan! Prestupna godina! Februar ima 29 dana!")
+                elif int(februar) == 2 and int(day) == 31:
                     answer.config(font=('arial', 10, 'bold'),
                                   text="JMBG nije validan! Prestupna godina! Februar ima 29 dana!")
                 else:
                     answer.config(font=('arial', 10, 'bold'), text="Datum vašeg rođenja je:" + " " + datum + "\n")
-            elif int(feb) == 30 or int(feb) == 31 or int(feb) == 29:
-                answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Februar ima 28 dana!")
+            elif int(feb) == 2:
+                dan = str('%d%d' % (prva_cifra, druga_cifra))
+                if int(dan) == 30 or int(dan) == 31 or int(dan) == 29:
+                    answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Februar ima 28 dana!")
+                else:
+                    answer.config(font=('arial', 10, 'bold'), text="Datum vašeg rođenja je:" + " " + datum + "\n")
             else:
                 answer.config(font=('arial', 10, 'bold'), text="Datum vašeg rođenja je:" + " " + datum + "\n")
         else:
@@ -467,32 +462,6 @@ def kontrolna_cifra():
         answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Niste uneli brojnu vrednost!")
 
 
-def prestupna_godina():
-    try:
-        a = entry1.get()
-        if len(a) == 0:
-            answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Niste uneli JMBG!")
-            a = int(a)
-        elif len(a) == 13:
-
-            prva_cifra = int(str(entry1.get())[0])
-            druga_cifra = int(str(entry1.get())[1])
-            treca_cifra = int(str(entry1.get())[2])
-            cetvrta_cifra = int(str(entry1.get())[3])
-            peta_cifra = int(str(entry1.get())[4])
-            sesta_cifra = int(str(entry1.get())[5])
-            sedma_cifra = int(str(entry1.get())[6])
-            godina = str('%d%d%d' % (peta_cifra, sesta_cifra, sedma_cifra))
-            if (int(godina) % 4 == 0 and int(godina) % 100 != 0) or int(godina) % 400 == 0:
-                answer.config(font=('arial', 10, 'bold'), text="Prestupna godina! Februar ima 29 dana!")
-            else:
-                answer.config(font=('arial', 10, 'bold'), text="Nije prestupna godina")
-        else:
-            print("ovde")
-    except ValueError:
-        answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Niste uneli brojnu vrednost!")
-
-
 answer = Label(root, text=' ')
 answer.pack(pady=20)
 
@@ -523,21 +492,21 @@ def provera_cifre():
 # button_validan_jmbg = Button(root, font=('arial', 10, 'bold'),text="Validiraj JMBG",bg="lime",command=main).place(x=190,y=200)#.pack()
 # button_validan_jmbg.pack(side=LEFT, padx=35,pady=30)
 
-button_validan_jmbg = Button(root, font=('arial', 10, 'bold'), text="Datum", bg="gold",
-                             command=datum)  # .place(x=190,y=200)#.pack()
-button_validan_jmbg.pack(side=LEFT, padx=20, pady=15)
+button_datum = Button(root, font=('arial', 10, 'bold'), text="Datum", bg="gold",
+                      command=datum)  # .place(x=190,y=200)#.pack()
+button_datum.pack(side=LEFT, padx=20, pady=15)
 
-button_validan_jmbg = Button(root, font=('arial', 10, 'bold'), text="Region", bg="gold",
-                             command=provera_regiona)  # .place(x=190,y=200)#.pack()
-button_validan_jmbg.pack(side=LEFT, padx=25, pady=20)
+button_region = Button(root, font=('arial', 10, 'bold'), text="Region", bg="gold",
+                       command=check_region)  # .place(x=190,y=200)#.pack()
+button_region.pack(side=LEFT, padx=25, pady=20)
 
-button_validan_jmbg = Button(root, font=('arial', 10, 'bold'), text="Pol", bg="gold",
-                             command=check_pol)  # lambda: [check_number_jmbg(),kontrolna_cifra()])#.place(x=190,y=200)#.pack()
-button_validan_jmbg.pack(side=LEFT, padx=20, pady=15)
+button_pol = Button(root, font=('arial', 10, 'bold'), text="Pol", bg="gold",
+                    command=check_pol)  # lambda: [check_number_jmbg(),kontrolna_cifra()])#.place(x=190,y=200)#.pack()
+button_pol.pack(side=LEFT, padx=20, pady=15)
 
-button_validan_jmbg = Button(root, font=('arial', 10, 'bold'), text="Kontrolna Cifra", bg="gold",
-                             command=kontrolna_cifra)  # .place(x=190,y=200)#.pack()
-button_validan_jmbg.pack(side=LEFT, padx=30, pady=25)
+button_kcifra = Button(root, font=('arial', 10, 'bold'), text="Kontrolna Cifra", bg="gold",
+                       command=kontrolna_cifra)  # .place(x=190,y=200)#.pack()
+button_kcifra.pack(side=LEFT, padx=30, pady=25)
 
 button_exit = Button(root, font=('arial', 10, 'bold'), text="Zatvori", bg="#C00000",
                      command=root.quit)  # .place(x=170,y=170)
