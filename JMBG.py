@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 
 root = Tk()
-root.geometry('600x250')
+root.geometry('750x250')
 root.title("JMBG Validator")
 root.iconbitmap('C:/Users/Admin/Downloads/icon.ico')
 
@@ -11,26 +11,6 @@ label_Jmbg = Label(root, font=('arial', 12, 'bold'), text="Unesite JMBG:")
 label_Jmbg.pack()
 entry1 = Entry(root, font=('arial', 13, 'bold'), width=30, bg="#87AF5F", fg="#0000C0", borderwidth=7)
 entry1.pack(pady=10)
-
-
-def check_number_jmbg():
-    try:
-        global a
-        a = entry1.get()
-
-        if len(a) < 13:
-            answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Morate uneti 13 cifara!")
-            a = int(a)
-        elif len(a) == 0:
-            answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Niste uneli JMBG!")
-            a = int(a)
-        elif len(a) > 13:
-            answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Morate uneti 13 cifara!")
-            a = int(a)
-        else:
-            answer.config(font=('arial', 10, 'bold'), text="Broj unetih cifara je tačan! Provera...")
-    except ValueError:
-        answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Niste uneli ispravnu vrednost!")
 
 
 def check_region():
@@ -61,6 +41,7 @@ def check_region():
             osma_cifra = int(str(entry1.get())[7])
             deveta_cifra = int(str(entry1.get())[8])
             region = str('%d%d' % (osma_cifra, deveta_cifra))
+            dan = str('%d%d' % (prva_cifra, druga_cifra))
 
             if prva_cifra not in [0, 1, 2, 3]:
                 answer.config(font=('arial', 10, 'bold'),
@@ -72,6 +53,8 @@ def check_region():
                               text="JMBG nije validan! Neispravna treća cifra - nije u opsegu! Mora biti između 0 i 1")
             elif cetvrta_cifra == 0:
                 answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Četvrta cifra ne može biti 0!")
+            elif int(dan) in range(32, 99, 1):
+                answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Nepostojeći datum - nije u opsegu!")
             elif peta_cifra not in [0, 9]:
                 answer.config(font=('arial', 10, 'bold'),
                               text="JMBG nije validan! Neispravna peta cifra - nije u opsegu! Mora biti između 0 ili 9")
@@ -283,6 +266,7 @@ def check_pol():
             cif10_pol = int(str(entry1.get())[9])
             cif11_pol = int(str(entry1.get())[10])
             cif12_pol = int(str(entry1.get())[11])
+            dan = str('%d%d' % (prva_cifra, druga_cifra))
 
             if prva_cifra not in [0, 1, 2, 3]:
                 answer.config(font=('arial', 10, 'bold'),
@@ -300,6 +284,8 @@ def check_pol():
             elif peta_cifra == 0 and int('%d%d' % (sesta_cifra, sedma_cifra)) in range(21, 99, 1):
                 answer.config(font=('arial', 10, 'bold'),
                               text="JMBG nije validan! Neispravna šesta i sedma cifra - nisu u opsegu! [Do 020] ")
+            elif int(dan) in range(32, 99, 1):
+                answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Nepostojeći datum - nije u opsegu!")
             elif peta_cifra != 9 and peta_cifra != 0:
                 answer.config(font=('arial', 10, 'bold'),
                               text="JMBG nije validan! Neispravna peta cifra - nije u opsegu! [0 ili 1]")
@@ -339,6 +325,7 @@ def datum():
                         (prva_cifra, druga_cifra, treca_cifra, cetvrta_cifra, peta_cifra, sesta_cifra, sedma_cifra))
             godina = str('%d%d%d' % (peta_cifra, sesta_cifra, sedma_cifra))
             feb = str('%d%d' % (treca_cifra, cetvrta_cifra))
+            dan = str('%d%d' % (prva_cifra, druga_cifra))
 
             if prva_cifra not in [0, 1, 2, 3]:
                 answer.config(font=('arial', 10, 'bold'),
@@ -357,6 +344,8 @@ def datum():
             elif peta_cifra != 9 and peta_cifra != 0:
                 answer.config(font=('arial', 10, 'bold'),
                               text="JMBG nije validan! Neispravna peta cifra - nije u opsegu! [0 ili 1]")
+            elif int(dan) in range(32, 99, 1):
+                answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Nepostojeći datum - nije u opsegu!")
             elif prva_cifra == 0 and druga_cifra == 0:
                 answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Neispravna druga cifra!")
             elif (int(godina) % 4 == 0 and int(godina) % 100 != 0) or int(godina) % 400 == 0:
@@ -418,6 +407,7 @@ def kontrolna_cifra():
             suma = int(7 * prva_cifra + 6 * druga_cifra + 5 * treca_cifra + 4 * cetvrta_cifra + 3 * peta_cifra +
                        2 * sesta_cifra + 7 * sedma_cifra + 6 * osma_cifra + 5 * deveta_cifra + 4 * cif10_pol + 3 * cif11_pol + 2 * cif12_pol)
             kontrolna_cifra = suma % 11
+            dan = str('%d%d' % (prva_cifra, druga_cifra))
 
             if prva_cifra not in [0, 1, 2, 3]:
                 answer.config(font=('arial', 10, 'bold'),
@@ -435,6 +425,8 @@ def kontrolna_cifra():
             elif peta_cifra == 0 and int('%d%d' % (sesta_cifra, sedma_cifra)) in range(21, 99, 1):
                 answer.config(font=('arial', 10, 'bold'),
                               text="JMBG nije validan! Neispravna šesta i sedma cifra - nisu u opsegu! [Do 020] ")
+            elif int(dan) in range(32, 99, 1):
+                answer.config(font=('arial', 10, 'bold'), text="JMBG nije validan! Nepostojeći datum - nije u opsegu!")
             elif peta_cifra != 9 and peta_cifra != 0:
                 answer.config(font=('arial', 10, 'bold'),
                               text="JMBG nije validan! Neispravna peta cifra - nije u opsegu! [0 ili 1]")
@@ -442,7 +434,8 @@ def kontrolna_cifra():
                 answer.config(font=('arial', 10, 'bold'), text="Kontrolna cifra je 0")
             elif kontrolna_cifra % 11 > 1:
                 kontrolna_cifra = 11 - kontrolna_cifra % 11
-                answer.config(font=('arial', 10, 'bold'), text="Kontrolna cifra je: " + str(kontrolna_cifra))
+                answer.config(font=('arial', 10, 'bold'), text="Kontrolna cifra je: " + str(
+                    kontrolna_cifra) + "\n" + "U slučaju da se unesena kontrolna cifra [poslednja cifra] ne poklapa sa dobijenom u iskazu JMBG nije validan!")
             elif kontrolna_cifra % 11 == 0:
                 kontrolna_cifra = 0
                 answer.config(font=('arial', 10, 'bold'), text="Kontrolna cifra je: " + str(kontrolna_cifra))
@@ -464,33 +457,6 @@ def kontrolna_cifra():
 
 answer = Label(root, text=' ')
 answer.pack(pady=20)
-
-
-def main():
-    check_number_jmbg()
-    datum()
-    check_pol()
-    kontrolna_cifra()
-
-
-def provera_datuma():
-    check_number_jmbg()
-    datum()
-
-
-def provera_regiona():
-    check_number_jmbg()
-    datum()
-    check_region()
-
-
-def provera_cifre():
-    check_number_jmbg()
-    kontrolna_cifra()
-
-
-# button_validan_jmbg = Button(root, font=('arial', 10, 'bold'),text="Validiraj JMBG",bg="lime",command=main).place(x=190,y=200)#.pack()
-# button_validan_jmbg.pack(side=LEFT, padx=35,pady=30)
 
 button_datum = Button(root, font=('arial', 10, 'bold'), text="Datum", bg="gold",
                       command=datum)  # .place(x=190,y=200)#.pack()
